@@ -19,7 +19,7 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
 	const auto& elements = layout.GetElements();
 	glEnableVertexAttribArray(layoutID);
 	vb.Bind();
-	glVertexAttribPointer(layoutID, elements[layoutID].count, elements[layoutID].type, elements[layoutID].normanized, layout.GetStride(), (void*)0);
+	glVertexAttribPointer(layoutID, elements[layoutID].count, elements[layoutID].type, elements[layoutID].normanized, 0, (void*)0);
 	if (layoutID == 0)
 		m_VerticesNum += vb.GetLength() / 2;
 

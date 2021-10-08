@@ -5,7 +5,7 @@
 #include <fstream>
 #include <random>
 
-// Include Project Headers
+//Include Project Headers
 #include "API/Shader.h"
 #include "API/VertexBuffer.h"
 #include "API/VertexArray.h"
@@ -27,7 +27,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include <glm/gtx/string_cast.hpp>
 using namespace glm;
+
+#include "Board.h"
+#include "Piece.h"
+#include "GameState.h"
 
 GLFWwindow* window;
 
@@ -38,203 +43,12 @@ uint32_t width = 800;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-float positions[] = {         
--1.0f,-1.0f,
--0.75f,-1.0f,
--0.75f,-0.75f,
--0.75f,-0.75f,
--1.0f,-0.75f,
--1.0f,-1.0f,
--1.0f,-0.5f,
--0.75f,-0.5f,
--0.75f,-0.25f,
--0.75f,-0.25f,
--1.0f,-0.25f,
--1.0f,-0.5f,
--1.0f,0.0f,
--0.75f,0.0f,
--0.75f,0.25f,
--0.75f,0.25f,
--1.0f,0.25f,
--1.0f,0.0f,
--1.0f,0.5f,
--0.75f,0.5f,
--0.75f,0.75f,
--0.75f,0.75f,
--1.0f,0.75f,
--1.0f,0.5f,
--0.5f,-1.0f,
--0.25f,-1.0f,
--0.25f,-0.75f,
--0.25f,-0.75f,
--0.5f,-0.75f,
--0.5f,-1.0f,
--0.5f,-0.5f,
--0.25f,-0.5f,
--0.25f,-0.25f,
--0.25f,-0.25f,
--0.5f,-0.25f,
--0.5f,-0.5f,
--0.5f,0.0f,
--0.25f,0.0f,
--0.25f,0.25f,
--0.25f,0.25f,
--0.5f,0.25f,
--0.5f,0.0f,
--0.5f,0.5f,
--0.25f,0.5f,
--0.25f,0.75f,
--0.25f,0.75f,
--0.5f,0.75f,
--0.5f,0.5f,
-0.0f,-1.0f,
-0.25f,-1.0f,
-0.25f,-0.75f,
-0.25f,-0.75f,
-0.0f,-0.75f,
-0.0f,-1.0f,
-0.0f,-0.5f,
-0.25f,-0.5f,
-0.25f,-0.25f,
-0.25f,-0.25f,
-0.0f,-0.25f,
-0.0f,-0.5f,
-0.0f,0.0f,
-0.25f,0.0f,
-0.25f,0.25f,
-0.25f,0.25f,
-0.0f,0.25f,
-0.0f,0.0f,
-0.0f,0.5f,
-0.25f,0.5f,
-0.25f,0.75f,
-0.25f,0.75f,
-0.0f,0.75f,
-0.0f,0.5f,
-0.5f,-1.0f,
-0.75f,-1.0f,
-0.75f,-0.75f,
-0.75f,-0.75f,
-0.5f,-0.75f,
-0.5f,-1.0f,
-0.5f,-0.5f,
-0.75f,-0.5f,
-0.75f,-0.25f,
-0.75f,-0.25f,
-0.5f,-0.25f,
-0.5f,-0.5f,
-0.5f,0.0f,
-0.75f,0.0f,
-0.75f,0.25f,
-0.75f,0.25f,
-0.5f,0.25f,
-0.5f,0.0f,
-0.5f,0.5f,
-0.75f,0.5f,
-0.75f,0.75f,
-0.75f,0.75f,
-0.5f,0.75f,
-0.5f,0.5f,
--0.75f,-0.75f,
--0.5f,-0.75f,
--0.5f,-0.5f,
--0.5f,-0.5f,
--0.75f,-0.5f,
--0.75f,-0.75f,
--0.75f,-0.25f,
--0.5f,-0.25f,
--0.5f,0.0f,
--0.5f,0.0f,
--0.75f,0.0f,
--0.75f,-0.25f,
--0.75f,0.25f,
--0.5f,0.25f,
--0.5f,0.5f,
--0.5f,0.5f,
--0.75f,0.5f,
--0.75f,0.25f,
--0.75f,0.75f,
--0.5f,0.75f,
--0.5f,1.0f,
--0.5f,1.0f,
--0.75f,1.0f,
--0.75f,0.75f,
--0.25f,-0.75f,
-0.0f,-0.75f,
-0.0f,-0.5f,
-0.0f,-0.5f,
--0.25f,-0.5f,
--0.25f,-0.75f,
--0.25f,-0.25f,
-0.0f,-0.25f,
-0.0f,0.0f,
-0.0f,0.0f,
--0.25f,0.0f,
--0.25f,-0.25f,
--0.25f,0.25f,
-0.0f,0.25f,
-0.0f,0.5f,
-0.0f,0.5f,
--0.25f,0.5f,
--0.25f,0.25f,
--0.25f,0.75f,
-0.0f,0.75f,
-0.0f,1.0f,
-0.0f,1.0f,
--0.25f,1.0f,
--0.25f,0.75f,
-0.25f,-0.75f,
-0.5f,-0.75f,
-0.5f,-0.5f,
-0.5f,-0.5f,
-0.25f,-0.5f,
-0.25f,-0.75f,
-0.25f,-0.25f,
-0.5f,-0.25f,
-0.5f,0.0f,
-0.5f,0.0f,
-0.25f,0.0f,
-0.25f,-0.25f,
-0.25f,0.25f,
-0.5f,0.25f,
-0.5f,0.5f,
-0.5f,0.5f,
-0.25f,0.5f,
-0.25f,0.25f,
-0.25f,0.75f,
-0.5f,0.75f,
-0.5f,1.0f,
-0.5f,1.0f,
-0.25f,1.0f,
-0.25f,0.75f,
-0.75f,-0.75f,
-1.0f,-0.75f,
-1.0f,-0.5f,
-1.0f,-0.5f,
-0.75f,-0.5f,
-0.75f,-0.75f,
-0.75f,-0.25f,
-1.0f,-0.25f,
-1.0f,0.0f,
-1.0f,0.0f,
-0.75f,0.0f,
-0.75f,-0.25f,
-0.75f,0.25f,
-1.0f,0.25f,
-1.0f,0.5f,
-1.0f,0.5f,
-0.75f,0.5f,
-0.75f,0.25f,
-0.75f,0.75f,
-1.0f,0.75f,
-1.0f,1.0f,
-1.0f,1.0f,
-0.75f,1.0f,
-0.75f,0.75f,
-};
+GameState* gameP;
+float darkColor[4] = {255/255.0f,137/255.0f,81/255.0f,255/255.0f};
+float lightColor[4] = {255/255.0f,215/255.0f,174/255.0f,255/255.0f};
+double xPosCursor, yPosCursor;
+int xCur, yCur, xLast, yLast;
 
-float darkColor[4] = {0.25f,0.25f,0.25f,1.0f};
-float lightColor[4] = {0.8f,0.8f,0.8f,1.0f};
 
 void processInput(GLFWwindow* window)
 {
@@ -243,8 +57,28 @@ void processInput(GLFWwindow* window)
 	
 }
 
+static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+}
 
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS){
+		xLast = (int)xPosCursor / 100;
+		yLast = (int)yPosCursor / 100;
+	}
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE){
+		xCur = (int)xPosCursor / 100;
+		yCur = (int)yPosCursor / 100;
 
+		if (!(xLast == xCur && yLast == yCur)){
+			if((xCur >= 0) && (xCur <= 7) && (yCur >= 0) && (yCur <= 7)){
+				// std::cout << "PRESSED ON: " << yLast << " . " << xLast << " | RELEASED ON: " << yCur << " . " << xCur << std::endl;
+				gameP->Move(yLast, xLast, yCur, xCur);
+			}
+		}
+	}
+}
 
 int main(void)
 {
@@ -280,25 +114,24 @@ int main(void)
 	}
 
 	{
+		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		// Create Shader
-		Shader shader("resources/shaders/VertexShader.vs", "resources/shaders/FragmentShader.fs");
-		shader.Bind();
- 
-		// glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)600 / (float)600, 0.1f, 400.0f);
-		// shader.SetUniformMatrix4f("u_Projection", Projection);
+		Shader boardShader("resources/shaders/BoardVertexShader.vs", "resources/shaders/BoardFragmentShader.fs");
+		boardShader.Bind();
 
-		VertexBufferLayout layout; 
-		layout.Push(2);
- 
-		VertexArray va;
-		VertexBuffer vb = VertexBuffer(positions, sizeof(positions));
-		va.AddBuffer(vb, layout, 0);
+		Renderer renderer = Renderer();   
+		
+		GameState game;
+		gameP = &game;
 
-		Texture texture("resources/textures/Chess_rlt60.png");
-		texture.Bind();
-		shader.SetUniform1i("u_Texture", 0);
+		game.PrintState();
 
-		Renderer renderer = Renderer();
+		glfwSetCursorPosCallback(window, cursor_position_callback);
+		glfwSetMouseButtonCallback(window, mouse_button_callback);
+		glfwSetInputMode(window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
 
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void) io;
@@ -326,25 +159,34 @@ int main(void)
 			ImGui::NewFrame();
 
 			
-			renderer.Draw(va, shader);
-			shader.SetUniform4f("u_Color",darkColor[0],darkColor[1],darkColor[2],darkColor[3]);
-			// background
-			glClearColor(lightColor[0],lightColor[1],lightColor[2],lightColor[3]);
+			
+			boardShader.Bind();
+			game.Draw(renderer, boardShader);
+
 
 
 			ImGui::Begin("Edit Variables");
 			ImGui::ColorEdit4("Board's Dark Color", darkColor);
 			ImGui::ColorEdit4("Board's Light Color", lightColor);
+			// ImGui::SliderFloat2("Piece1's Position", piece1->getTranslation(), 0.0f, 1.75f);
 
+
+			
+			boardShader.SetUniform4f("u_DarkColor",darkColor[0],darkColor[1],darkColor[2],darkColor[3]);
+			boardShader.SetUniform4f("u_LightColor",lightColor[0],lightColor[1],lightColor[2],lightColor[3]);
+
+			
 			ImGui::End();
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+			glfwGetCursorPos(window, &xPosCursor, &yPosCursor);
 
 			// Swap buffers
 			glfwSwapBuffers(window);
 			glfwPollEvents();
 
-		} 
+		}
 	}
 
 	// Close ImGui

@@ -11,6 +11,7 @@ class GameState {
 
 private:
     int score;
+    int whosTurn;
     Board board;
     Piece* pieces[8][8];
 
@@ -21,4 +22,6 @@ public:
     void Move(int curRow, int curColumn, int row, int column);
     void CreatePiece(unsigned int type, int row, int column);
     bool LoadFromFEN(const char* FEN);
+
+    inline void toggleTurn() { whosTurn == White_Piece ? whosTurn = Black_Piece : whosTurn = White_Piece; };
 };

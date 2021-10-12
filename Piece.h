@@ -20,11 +20,16 @@ enum PieceID {
     Black_King = 12,
 }; 
 
+enum PieceColor {
+    White_Piece = 1,
+    Black_Piece = 2,
+}; 
+
 class Piece {
 
     private:
         unsigned int type;
-        int textureID;
+        int isColor; // 0 = none, 1 = black, 2 = white
         VertexArray* va;
         Texture* texture;
         glm::vec3 translation;
@@ -40,6 +45,7 @@ class Piece {
         
         inline VertexArray* getPieceVa() { return va; }
         inline unsigned int getType() { return type; }
+        inline int getColor() { return isColor; }
         inline float* getTranslation() { return &translation.x; }
         inline void setTranslation(glm::vec3 translation) { translation = translation; }
 };

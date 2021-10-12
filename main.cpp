@@ -5,44 +5,25 @@
 #include <fstream>
 #include <random>
 
-//Include Project Headers
-#include "API/Shader.h"
-#include "API/VertexBuffer.h"
-#include "API/VertexArray.h"
-#include "API/Renderer.h"
-#include "API/Texture.h"
-
 // Include ImGui headers
 #include "API/imgui/imgui.h"
 #include "API/imgui/imgui_impl_glfw.h"
 #include "API/imgui/imgui_impl_opengl3.h"
 
-// Include GLEW
-#include <GL/glew.h>
-
-// Include GLFW
-#include <GLFW/glfw3.h>
-
-// Include GLM
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/transform.hpp>
-#include <glm/gtx/string_cast.hpp>
-using namespace glm;
-
+// Include project headers
 #include "Board.h"
 #include "Piece.h"
 #include "GameState.h"
 
+// window variables
 GLFWwindow* window;
-
-
 uint32_t width = 800;
 
-// timing
+// timing variables
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
+// game variables
 GameState* gameP;
 float darkColor[4] = {255/255.0f,137/255.0f,81/255.0f,255/255.0f};
 float lightColor[4] = {255/255.0f,215/255.0f,174/255.0f,255/255.0f};
@@ -57,9 +38,7 @@ void processInput(GLFWwindow* window)
 	
 }
 
-static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
-{
-}
+static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos){}
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {

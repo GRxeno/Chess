@@ -5,7 +5,7 @@ const char* OnePieceFen = "k";
 const char* TestFEN = "b4b2/2NRPp2/2kp4/3R4/7B/1Pp5/4p1P1/1K4n1 w - - 0 1";
 
 GameState::GameState()
-    :score(0)
+    :score(0), whosTurn(0)
 {
 
     for (int i = 0; i < 8; i++)
@@ -40,11 +40,16 @@ void GameState::Draw(const Renderer& renderer, Shader& shader){
 }
 
 void GameState::Move(int curRow, int curColumn, int row, int column){
-    if(pieces[curRow][curColumn]->Move(row, column)){
-        pieces[row][column] = pieces[curRow][curColumn];
-        pieces[curRow][curColumn] = new Piece();
-        std::cout << " -------------------- " << std::endl;
-		PrintState();
+    if(whosTurn == pieces[curRow][curColumn]->getColor()){ // Don't move out if not your turn
+        if(pieces[row][column]->getColor() != pieces[curRow][curColumn]->getColor()){ // Don't move on same color piece
+            if(pieces[curRow][curColumn]->Move(row, column)){ // If the move is successful update array
+                pieces[row][column] = pieces[curRow][curColumn];
+                pieces[curRow][curColumn] = new Piece();
+                toggleTurn();
+                std::cout << " -------------------- " << std::endl;
+                PrintState();
+            }
+        }
     }
 }
 
@@ -116,6 +121,10 @@ bool GameState::LoadFromFEN(const char* FEN){
             column++;
         }
         else if (FEN[index] == ' '){
+            if (FEN[index+1] == 'w')
+                whosTurn = White_Piece;
+            else if (FEN[index+1] == 'b')
+                whosTurn = Black_Piece;
             break;
         }
 

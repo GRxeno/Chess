@@ -479,7 +479,7 @@ void Board::PrintBoard(int number){
 }
 
 void Board::Draw(const Renderer& renderer, Shader& shader){
-	shader.SetUniformMatrix4f("u_MVP", Model);
+	shader.SetUniformMatrix4f("u_Model", Model);
     for (int i = 0; i < 64; i++) {
         if(i < 32)
             shader.SetUniform1i("u_Colored", true);

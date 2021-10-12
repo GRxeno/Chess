@@ -19,7 +19,7 @@ float texturePos[] = {
 };
 
 Piece::Piece(unsigned int type)
-    :type(type), textureID(0), translation(0), initState(true),  currentRow(0), currentColumn(0)
+    :type(type), isColor(0), translation(0), initState(true),  currentRow(0), currentColumn(0)
 { 
 
     VertexBufferLayout layout; 
@@ -34,78 +34,83 @@ Piece::Piece(unsigned int type)
     va->Unbind();
     vb.Unbind();
 
+    if (type >= 7 && type <= 12)
+        isColor = Black_Piece;
+    else if (type > 0 && type <=6)
+        isColor = White_Piece;
+
     switch(type) {
         case Black_Pawn:
         {
             texture = new Texture("resources/textures/Chess_BP.png");
-            textureID = 0;
+            // textureID = 0;
             break;
         }
         case Black_Rook:
         {
             texture = new Texture("resources/textures/Chess_BR.png");
-            textureID = 1;
+            // textureID = 1;
             break;
         }
         case Black_Bishop:
         {
             texture = new Texture("resources/textures/Chess_BB.png");
-            textureID = 2;
+            // textureID = 2;
             break;
         }
         case Black_Knight:
         {
             texture = new Texture("resources/textures/Chess_BN.png");
-            textureID = 3;
+            // textureID = 3;
             break;
         }
         case Black_Queen:
         {
             texture = new Texture("resources/textures/Chess_BQ.png");
-            textureID = 4;
+            // textureID = 4;
             break;
         }
         case Black_King:
         {
             texture = new Texture("resources/textures/Chess_BK.png");
-            textureID = 5;
+            // textureID = 5;
             break;
         }
         
         case White_Pawn:
         {
             texture = new Texture("resources/textures/Chess_WP.png");
-            textureID = 6;
+            // textureID = 6;
             break;
         }
         case White_Rook:
         {
             texture = new Texture("resources/textures/Chess_WR.png");
-            textureID = 7;
+            // textureID = 7;
             break;
         }
         case White_Bishop:
         {
             texture = new Texture("resources/textures/Chess_WB.png");
-            textureID = 8;
+            // textureID = 8;
             break;
         }
         case White_Knight:
         {
             texture = new Texture("resources/textures/Chess_WN.png");
-            textureID = 9;
+            // textureID = 9;
             break;
         }
         case White_Queen:
         {
             texture = new Texture("resources/textures/Chess_WQ.png");
-            textureID = 10;
+            // textureID = 10;
             break;
         }
         case White_King:
         {
             texture = new Texture("resources/textures/Chess_WK.png");
-            textureID = 11;
+            // textureID = 11;
             break;
         }
     }
@@ -117,9 +122,8 @@ Piece::~Piece(){
 
 void Piece::Draw(const Renderer& renderer, Shader& shader){
     glm::mat4 Model = glm::translate(glm::mat4(1.0f), translation);
-	shader.SetUniformMatrix4f("u_MVP", Model);
-    texture->Bind(textureID);
-    shader.SetUniform1i("u_Texture", textureID);
+	shader.SetUniformMatrix4f("u_Model", Model);
+    texture->Bind(0);
     renderer.Draw(*va, shader);
 }
 

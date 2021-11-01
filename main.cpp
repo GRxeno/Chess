@@ -10,6 +10,9 @@
 #include "API/imgui/imgui_impl_glfw.h"
 #include "API/imgui/imgui_impl_opengl3.h"
 
+#include "gtest/gtest.h"
+#include "gmock/gmock.h"
+
 // Include project headers
 #include "Board.h"
 #include "Piece.h"
@@ -59,7 +62,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	}
 }
 
-int main(void)
+int main(int argc, char* argv[])
 {
 	// Initialise GLFW
 	glewExperimental = true; // Needed for core profile
@@ -176,5 +179,6 @@ int main(void)
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
 
-	return 0;
+	testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
 }

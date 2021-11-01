@@ -222,7 +222,6 @@ bool Piece::Move(int row, int column){
                 default:
                 {
                     std::cout << "TYPE: " << type << std::endl;
-                    DoMove(row, column);
                     validMove = true;
                 }
         }

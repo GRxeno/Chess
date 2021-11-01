@@ -1,7 +1,7 @@
 #include "GameState.h"
 
 const char* StartingFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-const char* OnePieceFen = "k";
+const char* OnePieceFen = "k b";
 const char* TestFEN = "b4b2/2NRPp2/2kp4/3R4/7B/1Pp5/4p1P1/1K4n1 w - - 0 1";
 
 GameState::GameState()
@@ -42,7 +42,7 @@ void GameState::Draw(const Renderer& renderer, Shader& shader){
 void GameState::Move(int curRow, int curColumn, int row, int column){
     if(whosTurn == pieces[curRow][curColumn]->getColor()){ // Don't move out if not your turn
         if(pieces[row][column]->getColor() != pieces[curRow][curColumn]->getColor()){ // Don't move on same color piece
-            if(pieces[curRow][curColumn]->Move(row, column)){ // If the move is successful update array
+            if(pieces[curRow][curColumn]->Move(row, column)){ // if the move is successful update array
                 pieces[row][column] = pieces[curRow][curColumn];
                 pieces[curRow][curColumn] = new Piece();
                 toggleTurn();

@@ -8,9 +8,9 @@ Chess is a board game played between two players and one of the world's most pop
 
 ## Screenshots
 
-<img src="/resources/screenshots/GameState1.png?raw=true" alt="GameState1" width="480" height="270"/>
+<img src="/resources/screenshots/GameState1.png?raw=true" alt="GameState1" width="480" height="480"/>
 
-<img src="/resources/screenshots/GameState2.png?raw=true" alt="GameState2" width="480" height="270"/>
+<img src="/resources/screenshots/GameState2.png?raw=true" alt="GameState2" width="480" height="480"/>
 ---
 
 ## Requirements

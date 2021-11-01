@@ -10,8 +10,8 @@
 #include "API/imgui/imgui_impl_glfw.h"
 #include "API/imgui/imgui_impl_opengl3.h"
 
-#include "gtest/gtest.h"
-#include "gmock/gmock.h"
+// #include "gtest/gtest.h"
+// #include "gmock/gmock.h"
 
 // Include project headers
 #include "Board.h"
@@ -147,9 +147,9 @@ int main(int argc, char* argv[])
 
 
 
-			ImGui::Begin("Edit Variables");
-			ImGui::ColorEdit4("Board's Dark Color", darkColor);
-			ImGui::ColorEdit4("Board's Light Color", lightColor);
+			// ImGui::Begin("Edit Variables");
+			// ImGui::ColorEdit4("Board's Dark Color", darkColor);
+			// ImGui::ColorEdit4("Board's Light Color", lightColor);
 			// ImGui::SliderFloat2("Piece1's Position", piece1->getTranslation(), 0.0f, 1.75f);
 
 
@@ -158,7 +158,7 @@ int main(int argc, char* argv[])
 			boardShader.SetUniform4f("u_LightColor",lightColor[0],lightColor[1],lightColor[2],lightColor[3]);
 
 			
-			ImGui::End();
+			// ImGui::End();
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -179,6 +179,5 @@ int main(int argc, char* argv[])
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
 
-	testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
+	return 1;
 }

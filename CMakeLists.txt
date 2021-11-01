@@ -24,22 +24,22 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_subdirectory(external/glfw)
 add_subdirectory(external/glew)
-add_subdirectory(external/gtest)
+# add_subdirectory(external/gtest)
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC external/glfw/include
     PUBLIC external/glew/include
     PUBLIC external/glad/include
     PUBLIC external/glm
-    PUBLIC external/gtest/googletest/include
-    PUBLIC external/gtest/googlemock/include
+    # PUBLIC external/gtest/googletest/include
+    # PUBLIC external/gtest/googlemock/include
 )
 
 target_link_libraries(${PROJECT_NAME}
     glfw
     opengl32
     libglew_static libglew_shared
-    gtest gtest_main
-    gmock gmock_main
+#     gtest gtest_main
+#     gmock gmock_main
 )
 
